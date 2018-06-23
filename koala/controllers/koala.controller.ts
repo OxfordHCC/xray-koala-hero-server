@@ -9,8 +9,8 @@ router.get('/', (req : Request, res: Response ) : void => {
     res.send('Hello World');
 });
 
-
 router.post('/auth', (req : Request, res: Response ) : void => {
+
     let authRequest : AuthRequest = req.body;
     res.send(authRequest);
 });
