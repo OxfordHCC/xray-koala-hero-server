@@ -3,7 +3,7 @@ module.exports = {
         'port':8084
     },
     'db': {
-        'database':'xray_csm',
+        'database':'xray_koala',
         'host':'localhost',
         'port':5432
     },
