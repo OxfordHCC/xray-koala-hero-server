@@ -16,11 +16,11 @@ router.get('/', (req : Request, res: Response ) : void => {
 
 
 /**
- *  Register new User 
+ *  Register new User
  */
 router.post('/registration', async (req : Request, res: Response ) => {
     let registrationDetails : RegistrationDetails = req.body;
-    
+
 
     // Check Valid Email
     if(!validateEmail(registrationDetails.email)) {
@@ -33,7 +33,7 @@ router.post('/registration', async (req : Request, res: Response ) => {
         res.send(passwordInsecurities);
         return;
     }
-        
+
     // Check Email Doesn't Exist
     if(await db.selectByEmail(registrationDetails.email)) {
         console.log(`User already exists with email: ${registrationDetails.email}`);
@@ -70,7 +70,7 @@ router.post('/registration', async (req : Request, res: Response ) => {
  */
 router.post('/', async (req : Request, res: Response ) => {
     let registrationDetails : RegistrationDetails = req.body;
-    
+
     // Check Email Doesn't Exist
     let user : User = await db.selectByEmail(registrationDetails.email);
     console.log(user);
@@ -79,7 +79,7 @@ router.post('/', async (req : Request, res: Response ) => {
         res.send(new AuthError());
         return;
     }
-    
+
     if(!await bcrypt.compare(registrationDetails.password, user.password_hash)) {
         console.log(`Invalid password for user with email: ${registrationDetails.email}`);
         res.send(AuthError);
@@ -87,7 +87,7 @@ router.post('/', async (req : Request, res: Response ) => {
     }
         // Generate Token
     let tokenResponse : TokenResponse = createToken(registrationDetails.email);
-    
+
     res.send(tokenResponse);
 });
 
@@ -96,7 +96,7 @@ router.post('/', async (req : Request, res: Response ) => {
  * @param email The email of the user a token is being created for.
  */
 function createToken(email : string) : TokenResponse {
-    let tokenResponse : TokenResponse = new TokenResponse(); 
+    let tokenResponse : TokenResponse = new TokenResponse();
 
     // create token.
     tokenResponse.token = jwt.sign(
