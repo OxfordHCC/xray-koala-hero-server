@@ -1,5 +1,5 @@
 import { Router, Request, Response, json } from 'express';
-import { AuthRequest } from '../../util/types';
+import { AuthDetails } from '../../util/types';
 
 const router : Router = Router();
 
@@ -10,8 +10,8 @@ router.get('/', (req : Request, res: Response ) : void => {
 });
 
 router.post('/something', (req : Request, res: Response ) : void => {
-    let authRequest : AuthRequest = req.body;
-    res.send(authRequest);
+    let authDetails : AuthDetails = req.body;
+    res.send(authDetails);
 });
 
 export const KoalaController : Router = router;

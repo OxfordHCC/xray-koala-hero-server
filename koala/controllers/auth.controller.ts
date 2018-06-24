@@ -1,5 +1,5 @@
 import { Router, Request, Response, json } from 'express';
-import { RegistrationDetails, TokenResponse, RegistrationError, User, AuthError } from '../../util/types';
+import { RegistrationDetails, TokenResponse, RegistrationError, User, AuthError, InsecurePasswordError, PasswordTooShort, PasswordHasNoNumeric, PasswordHasNoSpecial, PasswordInsecurity } from '../../util/types';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 import { DB } from '../../db/db';
@@ -27,6 +27,12 @@ router.post('/registration', async (req : Request, res: Response ) => {
         res.send(new RegistrationError());
         return;
     }
+
+    let passwordInsecurities : InsecurePasswordError = getPasswordInsecurities(registrationDetails.password);
+    if(passwordInsecurities.insecurities.length != 0) {
+        res.send(passwordInsecurities);
+        return;
+    }
         
     // Check Email Doesn't Exist
     if(await db.selectByEmail(registrationDetails.email)) {
@@ -40,7 +46,7 @@ router.post('/registration', async (req : Request, res: Response ) => {
 
     // Hash the pass.
     let salt = await bcrypt.genSalt(10);
-    user.hashed_password = await bcrypt.hash(registrationDetails.password, salt);
+    user.password_hash = await bcrypt.hash(registrationDetails.password, salt);
 
 
     // Insert Details to DB.
@@ -66,14 +72,15 @@ router.post('/', async (req : Request, res: Response ) => {
     let registrationDetails : RegistrationDetails = req.body;
     
     // Check Email Doesn't Exist
-    let user : User = await db.selectByEmail(registrationDetails.email) 
+    let user : User = await db.selectByEmail(registrationDetails.email);
+    console.log(user);
     if(!user) {
         console.log(`User does not exist with email: ${registrationDetails.email}`);
         res.send(new AuthError());
         return;
     }
     
-    if(!await bcrypt.compare(registrationDetails.password, user.hashed_password)) {
+    if(!await bcrypt.compare(registrationDetails.password, user.password_hash)) {
         console.log(`Invalid password for user with email: ${registrationDetails.email}`);
         res.send(AuthError);
         return;
@@ -112,6 +119,30 @@ function createToken(email : string) : TokenResponse {
 function validateEmail(email : string) : boolean {
     const emailRegEx : RegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailRegEx.test(email);
+}
+
+function validatePasswordLength(password : string ) {
+    return /(?=.{8,})/.test(password);
+}
+function validatePasswordHasSpecial(password : string) {
+    return /(?=.*[^a-zA-Z0-9])/.test(password)
+}
+function validatePasswordHasNumeric(password : string) {
+    return /(?=.*[0-9])/.test(password);
+}
+
+function getPasswordInsecurities(password : string) : InsecurePasswordError {
+    let insecurePasswordError : InsecurePasswordError = new InsecurePasswordError();
+    if(!validatePasswordLength(password)) {
+        insecurePasswordError.insecurities.push(new PasswordTooShort);
+    }
+    if(!validatePasswordHasNumeric(password)) {
+        insecurePasswordError.insecurities.push(new PasswordHasNoNumeric);
+    }
+    if(!validatePasswordHasSpecial(password)) {
+        insecurePasswordError.insecurities.push(new PasswordHasNoSpecial);
+    }
+    return insecurePasswordError;
 }
 
 export const AuthController : Router = router;

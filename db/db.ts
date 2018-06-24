@@ -58,7 +58,7 @@ export class DB {
             }
             await this.query(
                 'insert into users(email, password_hash, last_auth, date_created) values ($1, $2, now(), now())',
-                [user.email, user.hashed_password]
+                [user.email, user.password_hash]
             );
         }
         catch(err) {
