@@ -1,9 +1,14 @@
 export class TokenResponse {
     expires:    string = "";
-    token:      string = ""
+    token:      string = "";
 }
 
 export class AuthRequest {
     email:      string = "";
-    password:    string = "";
+    token:      string = "";
+}
+
+export class RegistrationDetails {
+    email:      string = "";
+    password:   string = "";
 }

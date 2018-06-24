@@ -1,11 +1,12 @@
 import * as express from 'express';
-import { KoalaController } from './controllers';
+import { KoalaController, AuthController } from './controllers';
 const config = require('../config/config');
 
 const app: express.Application = express();
 const port: number = config.api.port;
 
 
-app.use('/', KoalaController);
+app.use('/koala', KoalaController);
+app.use('/auth', AuthController);
 
 app.listen(port, () => console.log(`Koala is Listening: http://localhost:${port}`));

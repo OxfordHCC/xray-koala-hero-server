@@ -12,5 +12,9 @@ module.exports = {
             'user':'postgres',
             'password':'password'
         }
+    },
+    'auth' : {
+        'secret':'shhhh',
+        'expires_in' : 86400
     }
 }

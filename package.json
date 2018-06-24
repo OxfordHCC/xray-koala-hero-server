@@ -9,9 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.1",
     "@types/express": "^4.16.0",
+    "@types/jsonwebtoken": "^7.2.7",
     "@types/pg": "^7.4.9",
+    "bcryptjs": "^2.4.3",
     "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
     "pg": "^7.4.3"
   }
 }
