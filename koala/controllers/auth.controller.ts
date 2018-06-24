@@ -121,6 +121,9 @@ function validateEmail(email : string) : boolean {
     return emailRegEx.test(email);
 }
 
+/**
+ * Password Insecurity checks
+ */
 function validatePasswordLength(password : string ) {
     return /(?=.{8,})/.test(password);
 }
@@ -131,6 +134,10 @@ function validatePasswordHasNumeric(password : string) {
     return /(?=.*[0-9])/.test(password);
 }
 
+/**
+ * Builds and returns a InsecurePasswordError from password insecurity checks.
+ * @param password Password string that is to be checked for insecurities.
+ */
 function getPasswordInsecurities(password : string) : InsecurePasswordError {
     let insecurePasswordError : InsecurePasswordError = new InsecurePasswordError();
     if(!validatePasswordLength(password)) {
