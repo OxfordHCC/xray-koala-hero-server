@@ -21,7 +21,7 @@ Example Body Data
 ```json
 {
     "email":"example@example.com",
-    "password': "P4$$w0rd"
+    "password": "P4$$w0rd"
 }
 ```
 
