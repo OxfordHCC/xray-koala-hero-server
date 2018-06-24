@@ -15,6 +15,8 @@ router.get('/', (req : Request, res: Response ) : void => {
             res.status(401).send({error:'invalid token'});
             return;
         }
+
+        // Do whaetever the endpoint do.
         res.send({"authenticated":true});
     });
 });
@@ -27,6 +29,8 @@ router.post('/something', (req : Request, res: Response ) : void => {
             res.status(401).send({error:'invalid token'});
             return;
         }
+
+        // Do whaetever the endpoint do.
         res.send({"something":"something"});
     });
 
