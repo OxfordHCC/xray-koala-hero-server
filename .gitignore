@@ -1,5 +1,5 @@
 build/*
-!build/config/example_config.json
+config/config.ts
 
 node_modules/
 .node_modules/

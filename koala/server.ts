@@ -1,7 +1,6 @@
 import * as express from 'express';
 import { KoalaController } from './controllers';
-
-const config = require('../config/config.json');
+const config = require('../config/config');
 
 const app: express.Application = express();
 const port: number = config.api.port;
