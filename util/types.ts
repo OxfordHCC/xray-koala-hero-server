@@ -20,7 +20,7 @@ export class RegistrationError {
 
 export class AuthError {
     error:      string = "AuthError";
-    message:    string = "Error authenticating user.";    
+    message:    string = "Error authenticating user.";
 }
 
 export class InsecurePasswordError {

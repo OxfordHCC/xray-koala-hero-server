@@ -73,7 +73,6 @@ router.post('/', async (req : Request, res: Response ) => {
 
     // Check Email Doesn't Exist
     let user : User = await db.selectByEmail(registrationDetails.email);
-    console.log(user);
     if(!user) {
         console.log(`User does not exist with email: ${registrationDetails.email}`);
         res.send(new AuthError());
@@ -100,9 +99,9 @@ function createToken(email : string) : TokenResponse {
 
     // create token.
     tokenResponse.token = jwt.sign(
-        { id:email},
+        { email:email},
         config.auth.secret,
-        { expiresIn:config.auth.expires_in }
+        { jwtid:email ,expiresIn:config.auth.expires_in }
     );
 
     // Calculate Expiry Date
