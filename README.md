@@ -25,7 +25,7 @@ Is used to register new users, authenticating the client if registration is succ
 Example Curl Request:
 ```
 curl -X POST -H "Content-type: application/json"
--d '{"email":"example@example.com","password":"P4$$w0rd"}'
+-d '{"email":"example@example.com",'"password":"P4$$w0rd"}'
 "localhost:8084/auth/registration"
 
 ```
