@@ -23,10 +23,10 @@ router.post('/registration', async (req : Request, res: Response ) => {
 
 
     // Check Valid Email
-    if(!validateEmail(registrationDetails.email)) {
-        res.send(new RegistrationError());
-        return;
-    }
+    // if(!validateEmail(registrationDetails.email)) {
+    //     res.send(new RegistrationError());
+    //     return;
+    // }
 
     let passwordInsecurities : InsecurePasswordError = getPasswordInsecurities(registrationDetails.password);
     if(passwordInsecurities.insecurities.length != 0) {
@@ -35,14 +35,14 @@ router.post('/registration', async (req : Request, res: Response ) => {
     }
 
     // Check Email Doesn't Exist
-    if(await db.selectByEmail(registrationDetails.email)) {
-        console.log(`User already exists with email: ${registrationDetails.email}`);
+    if(await db.selectByStudyID(registrationDetails.study_id)) {
+        console.log(`User already exists with email: ${registrationDetails.study_id}`);
         res.send(new RegistrationError());
         return;
     }
 
     let user = new User();
-    user.email = registrationDetails.email;
+    user.study_id = registrationDetails.study_id;
 
     // Hash the pass.
     let salt = await bcrypt.genSalt(10);
@@ -59,7 +59,7 @@ router.post('/registration', async (req : Request, res: Response ) => {
     }
 
     // Generate Token
-    let tokenResponse : TokenResponse = createToken(registrationDetails.email);
+    let tokenResponse : TokenResponse = createToken(registrationDetails.study_id);
 
     // Send Token & Date of Expiry
     res.send(tokenResponse);
@@ -71,37 +71,37 @@ router.post('/registration', async (req : Request, res: Response ) => {
 router.post('/', async (req : Request, res: Response ) => {
     let registrationDetails : RegistrationDetails = req.body;
 
-    // Check Email Doesn't Exist
-    let user : User = await db.selectByEmail(registrationDetails.email);
+    // Check study_id Doesn't Exist
+    let user : User = await db.selectByStudyID(registrationDetails.study_id);
     if(!user) {
-        console.log(`User does not exist with email: ${registrationDetails.email}`);
+        console.log(`User does not exist with study_id: ${registrationDetails.study_id}`);
         res.send(new AuthError());
         return;
     }
 
     if(!await bcrypt.compare(registrationDetails.password, user.password_hash)) {
-        console.log(`Invalid password for user with email: ${registrationDetails.email}`);
+        console.log(`Invalid password for user with study_id: ${registrationDetails.study_id}`);
         res.send(AuthError);
         return;
     }
         // Generate Token
-    let tokenResponse : TokenResponse = createToken(registrationDetails.email);
+    let tokenResponse : TokenResponse = createToken(registrationDetails.study_id);
 
     res.send(tokenResponse);
 });
 
 /**
- * Creates a token using the secret found in the config and the user's email.
- * @param email The email of the user a token is being created for.
+ * Creates a token using the secret found in the config and the user's study_id.
+ * @param email The study_id of the user a token is being created for.
  */
-function createToken(email : string) : TokenResponse {
+function createToken(study_id : string) : TokenResponse {
     let tokenResponse : TokenResponse = new TokenResponse();
 
     // create token.
     tokenResponse.token = jwt.sign(
-        { email:email},
+        { study_id:study_id},
         config.auth.secret,
-        { jwtid:email ,expiresIn:config.auth.expires_in }
+        { jwtid:study_id ,expiresIn:config.auth.expires_in }
     );
 
     // Calculate Expiry Date

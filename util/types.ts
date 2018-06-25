@@ -4,18 +4,18 @@ export class TokenResponse {
 }
 
 export class AuthDetails {
-    email:      string = "";
+    study_id:      string = "";
     token:      string = "";
 }
 
 export class RegistrationDetails {
-    email:      string = "";
+    study_id:      string = "";
     password:   string = "";
 }
 
 export class RegistrationError {
     error:      string = "RegistrationError";
-    message:    string = "Error registering user with provided email and password.";
+    message:    string = "Error registering user with provided study_id and password.";
 }
 
 export class AuthError {
@@ -60,8 +60,8 @@ export class PasswordHasNoNumeric extends PasswordInsecurity {
 
 export class User {
     id: number = -1;
-    email : string = "";
+    study_id : string = "";
     password_hash : string = "";
     last_auth : Date = new Date();
-    date_created : Date = new Date(); 
+    date_created : Date = new Date();
 }
