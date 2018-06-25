@@ -37,7 +37,7 @@ router.post('/something', (req : Request, res: Response ) : void => {
 });
 
 function authenticate(authDetails : AuthDetails, callback : jwt.VerifyCallback) {
-    return jwt.verify(authDetails.token, config.auth.secret, { jwtid:authDetails.study_id }, callback);
+    return jwt.verify(authDetails.token, config.auth.secret, { jwtid:authDetails.email }, callback);
 }
 
 export const KoalaController : Router = router;

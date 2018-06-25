@@ -38,31 +38,31 @@ export class DB {
         }
     }
 
-    async selectByStudyID(studyID : string) {
+    async selectByEmail(email : string) {
         try{
             let ret: pg.QueryResult =
-                await this.query('select * from users where study_id = $1', [studyID]);
+                await this.query('select * from users where email = $1', [email]);
             return ret.rows[0];
 
         } catch(err) {
-            console.log(`Error selecting user for studyID: ${studyID}, Error: ${err}`);
+            console.log(`Error selecting user for email: ${email}, Error: ${err}`);
         }
     }
 
     async insertUser(user : User) {
         try {
-            let selectedUser : User = await this.selectByStudyID(user.study_id);
+            let selectedUser : User = await this.selectByEmail(user.email);
             if(selectedUser) {
-                console.log(`User with studyID: ${user.study_id} already exists.`);
+                console.log(`User with email: ${user.email} already exists.`);
                 return;
             }
             await this.query(
-                'insert into users(study_id, password_hash, last_auth, date_created) values ($1, $2, now(), now())',
-                [user.study_id, user.password_hash]
+                'insert into users(email, password_hash, last_auth, date_created) values ($1, $2, now(), now())',
+                [user.email, user.password_hash]
             );
         }
         catch(err) {
-            console.log(`Error inserting user details inserted for studyID: ${user.study_id}, Error: ${err}`);
+            console.log(`Error inserting user details inserted for email: ${user.email}, Error: ${err}`);
             throw err;
         }
     }
