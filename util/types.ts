@@ -83,3 +83,8 @@ export class Interaction {
     page_name : string = "";
     additional_data : any = {};
 }
+
+export class LogInteractionRequest {
+    auth_details : AuthDetails = new AuthDetails();
+    interaction : Interaction = new Interaction();
+}

@@ -19,13 +19,11 @@ create table interactions(
 );
 
 create table phone_information(
-    id                      serial      not null unique,
+    id                      serial      not null primary key,
     study_id                text        references users(study_id),
     retrieval_datetime      timestamp   not null,
     installed_apps          text[]      not null,
     top_ten_apps            text[]      not null
 );
-
-
 
 commit;
