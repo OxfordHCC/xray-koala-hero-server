@@ -21,7 +21,7 @@ router.get('/', (req : Request, res: Response ) : void => {
     });
 });
 
-router.post('/something', (req : Request, res: Response ) : void => {
+router.post('/phone_info', (req : Request, res: Response ) : void => {
     let authDetails : AuthDetails = req.body;
     authenticate(authDetails, (err : jwt.JsonWebTokenError, decoded) => {
         if(err) {
