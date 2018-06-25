@@ -42,7 +42,26 @@ router.post('/interaction', (req : Request, res: Response ) => {
         }
             // Do whaetever the endpoint do.
     });
+});
 
+router.post('/phone_data', (req : Request, res: Response ) => {
+    let logInteractionRequest : LogInteractionRequest = req.body;
+    authenticate(logInteractionRequest.auth_details, async (err : jwt.JsonWebTokenError, decoded) => {
+        if(err) {
+            console.log(err);
+            res.status(401).send({error:'invalid token'});
+            return;
+        }
+
+        try{
+            await db.insertInteractionLog(logInteractionRequest.interaction);
+            res.status(200).send({Success:"Interaction was successfully logged."});
+        }
+        catch(err) {
+            res.status(400).send({Error:err});
+        }
+            // Do whaetever the endpoint do.
+    });
 });
 
 function authenticate(authDetails : AuthDetails, callback : jwt.VerifyCallback) {

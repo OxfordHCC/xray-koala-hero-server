@@ -88,3 +88,8 @@ export class LogInteractionRequest {
     auth_details : AuthDetails = new AuthDetails();
     interaction : Interaction = new Interaction();
 }
+
+export class LogPhoneInformationRequest {
+    auth_details : AuthDetails = new AuthDetails();
+    phone_info : PhoneInformation = new PhoneInformation();
+}
