@@ -1,5 +1,5 @@
 import { Router, Request, Response, json } from 'express';
-import { AuthDetails, LogInteractionRequest } from '../../util/types';
+import { AuthDetails, LogInteractionRequest, LogPhoneInformationRequest } from '../../util/types';
 import * as jwt from 'jsonwebtoken';
 
 const config = require('../../config/config');
@@ -44,9 +44,10 @@ router.post('/interaction', (req : Request, res: Response ) => {
     });
 });
 
-router.post('/phone_data', (req : Request, res: Response ) => {
-    let logInteractionRequest : LogInteractionRequest = req.body;
-    authenticate(logInteractionRequest.auth_details, async (err : jwt.JsonWebTokenError, decoded) => {
+router.post('/phone_info', (req : Request, res: Response ) => {
+    let logPhoneInformationRequest : LogPhoneInformationRequest = req.body;
+    console.log(logPhoneInformationRequest);
+    authenticate(logPhoneInformationRequest.auth_details, async (err : jwt.JsonWebTokenError, decoded) => {
         if(err) {
             console.log(err);
             res.status(401).send({error:'invalid token'});
@@ -54,7 +55,7 @@ router.post('/phone_data', (req : Request, res: Response ) => {
         }
 
         try{
-            await db.insertInteractionLog(logInteractionRequest.interaction);
+            await db.insertPhoneInfo(logPhoneInformationRequest.phone_info);
             res.status(200).send({Success:"Interaction was successfully logged."});
         }
         catch(err) {

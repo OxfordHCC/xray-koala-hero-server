@@ -1,5 +1,5 @@
 import * as pg from 'pg';
-import { User, Interaction } from '../util/types';
+import { User, Interaction, PhoneInformation } from '../util/types';
 
 export class DB {
 
@@ -88,6 +88,30 @@ export class DB {
         }
         catch(err) {
             console.log(`Error inserting interaction log details for studyID: ${interaction.study_id}, Error: ${err}`);
+            throw err;
+        }
+    }
+
+    async insertPhoneInfo(phoneInfo : PhoneInformation) {
+        try {
+            let selectedUser : User = await this.selectByStudyID(phoneInfo.study_id);
+            if(!selectedUser) {
+                console.log(`User doesn't exist with studyID: ${phoneInfo.study_id}`);
+                return;
+            }
+            await this.query(
+                'insert into phone_information(study_id, retrieval_datetime, installed_apps, top_ten_apps) values($1,$2,$3,$4)',
+                [
+                    phoneInfo.study_id,
+                    phoneInfo.retrieval_datetime,
+                    phoneInfo.installed_apps,
+                    phoneInfo.top_ten_apps
+                ]
+            );
+        }
+        catch(err) {
+            console.log(`Error inserting Phone info for studyID: ${phoneInfo.study_id}, Error: ${err}`);
+            throw err;
         }
     }
 }
