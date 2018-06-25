@@ -65,3 +65,31 @@ export class User {
     last_auth : Date = new Date();
     date_created : Date = new Date();
 }
+
+export class PhoneInformation {
+    id : number = -1;
+    study_id : string = ""
+    retrieval_datetime : Date = new Date();
+    installed_apps : string[] = [];
+    top_ten_apps : string [] = [];
+}
+
+export class Interaction {
+    id : number = -1;
+    study_id : string = "";
+    interaction_type : string = "";
+    interaction_datetime : Date = new Date();
+    associated_app_id : string = "";
+    page_name : string = "";
+    additional_data : any = {};
+}
+
+export class LogInteractionRequest {
+    auth_details : AuthDetails = new AuthDetails();
+    interaction : Interaction = new Interaction();
+}
+
+export class LogPhoneInformationRequest {
+    auth_details : AuthDetails = new AuthDetails();
+    phone_info : PhoneInformation = new PhoneInformation();
+}

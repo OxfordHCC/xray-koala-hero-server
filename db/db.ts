@@ -1,5 +1,5 @@
 import * as pg from 'pg';
-import { User } from '../util/types';
+import { User, Interaction, PhoneInformation } from '../util/types';
 
 export class DB {
 
@@ -63,6 +63,54 @@ export class DB {
         }
         catch(err) {
             console.log(`Error inserting user details inserted for studyID: ${user.study_id}, Error: ${err}`);
+            throw err;
+        }
+    }
+
+    async insertInteractionLog(interaction : Interaction) {
+        try {
+            let selectedUser : User = await this.selectByStudyID(interaction.study_id);
+            if(!selectedUser) {
+                console.log(`User doesn't exist with studyID: ${interaction.study_id}`);
+                return;
+            }
+            await this.query(
+                'insert into interactions (study_id, interaction_type, interaction_datetime, associated_app_id, page_name, additional_data) values ($1,$2,$3,$4,$5,$6)',
+                [
+                    interaction.study_id,
+                    interaction.interaction_type,
+                    interaction.interaction_datetime,
+                    interaction.associated_app_id,
+                    interaction.page_name,
+                    interaction.additional_data
+                ]
+            );
+        }
+        catch(err) {
+            console.log(`Error inserting interaction log details for studyID: ${interaction.study_id}, Error: ${err}`);
+            throw err;
+        }
+    }
+
+    async insertPhoneInfo(phoneInfo : PhoneInformation) {
+        try {
+            let selectedUser : User = await this.selectByStudyID(phoneInfo.study_id);
+            if(!selectedUser) {
+                console.log(`User doesn't exist with studyID: ${phoneInfo.study_id}`);
+                return;
+            }
+            await this.query(
+                'insert into phone_information(study_id, retrieval_datetime, installed_apps, top_ten_apps) values($1,$2,$3,$4)',
+                [
+                    phoneInfo.study_id,
+                    phoneInfo.retrieval_datetime,
+                    phoneInfo.installed_apps,
+                    phoneInfo.top_ten_apps
+                ]
+            );
+        }
+        catch(err) {
+            console.log(`Error inserting Phone info for studyID: ${phoneInfo.study_id}, Error: ${err}`);
             throw err;
         }
     }
