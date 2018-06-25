@@ -6,7 +6,6 @@ create table users(
     password_hash   text        not null,
     last_auth       date,
     date_created    date
-
 );
 
 commit;
