@@ -29,7 +29,7 @@ curl -X POST -H "Content-type: application/json" -d '{"email":"example@example.c
 
 ```
 Example Body Data
-```json
+```JSONiq
 {
     "email":"example@example.com",
     "password": "P4$$w0rd"
@@ -37,9 +37,10 @@ Example Body Data
 ```
 
 Example Resonse Data
-```perl
+```JSON5
 {
-    "expires":"2018-06-25T12:15:22.585Z",  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImV4YW1wbGVAZXhhbXBsZS5jb20iLCJpYXQiOjE1Mjk4NDI1MjIsImV4cCI6MTUyOTkyODkyMn0.17fT6N0WB9WvG73afngaRF2-m_ZVxOuFH3Vj4NjvJZY"
+    "expires":"2018-06-25T12:15:22.585Z",
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImV4YW1wbGVAZXhhbXBsZS5jb20iLCJpYXQiOjE1Mjk4NDI1MjIsImV4cCI6MTUyOTkyODkyMn0.17fT6N0WB9WvG73afngaRF2-m_ZVxOuFH3Vj4NjvJZY"
 }
 ```
 
