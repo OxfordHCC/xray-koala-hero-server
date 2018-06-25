@@ -1,5 +1,5 @@
 import * as pg from 'pg';
-import { User } from '../util/types';
+import { User, Interaction, PhoneInformation } from '../util/types';
 
 export class DB {
 
@@ -38,31 +38,79 @@ export class DB {
         }
     }
 
-    async selectByEmail(email : string) {
+    async selectByStudyID(studyID : string) {
         try{
             let ret: pg.QueryResult =
-                await this.query('select * from users where email = $1', [email]);
+                await this.query('select * from users where study_id = $1', [studyID]);
             return ret.rows[0];
 
         } catch(err) {
-            console.log(`Error selecting user for email: ${email}, Error: ${err}`);
+            console.log(`Error selecting user for studyID: ${studyID}, Error: ${err}`);
         }
     }
 
     async insertUser(user : User) {
         try {
-            let selectedUser : User = await this.selectByEmail(user.email);
+            let selectedUser : User = await this.selectByStudyID(user.study_id);
             if(selectedUser) {
-                console.log(`User with email: ${user.email} already exists.`);
+                console.log(`User with studyID: ${user.study_id} already exists.`);
                 return;
             }
             await this.query(
-                'insert into users(email, password_hash, last_auth, date_created) values ($1, $2, now(), now())',
-                [user.email, user.password_hash]
+                'insert into users(study_id, password_hash, last_auth, date_created) values ($1, $2, now(), now())',
+                [user.study_id, user.password_hash]
             );
         }
         catch(err) {
-            console.log(`Error inserting user details inserted for email: ${user.email}, Error: ${err}`);
+            console.log(`Error inserting user details inserted for studyID: ${user.study_id}, Error: ${err}`);
+            throw err;
+        }
+    }
+
+    async insertInteractionLog(interaction : Interaction) {
+        try {
+            let selectedUser : User = await this.selectByStudyID(interaction.study_id);
+            if(!selectedUser) {
+                console.log(`User doesn't exist with studyID: ${interaction.study_id}`);
+                return;
+            }
+            await this.query(
+                'insert into interactions (study_id, interaction_type, interaction_datetime, associated_app_id, page_name, additional_data) values ($1,$2,$3,$4,$5,$6)',
+                [
+                    interaction.study_id,
+                    interaction.interaction_type,
+                    interaction.interaction_datetime,
+                    interaction.associated_app_id,
+                    interaction.page_name,
+                    interaction.additional_data
+                ]
+            );
+        }
+        catch(err) {
+            console.log(`Error inserting interaction log details for studyID: ${interaction.study_id}, Error: ${err}`);
+            throw err;
+        }
+    }
+
+    async insertPhoneInfo(phoneInfo : PhoneInformation) {
+        try {
+            let selectedUser : User = await this.selectByStudyID(phoneInfo.study_id);
+            if(!selectedUser) {
+                console.log(`User doesn't exist with studyID: ${phoneInfo.study_id}`);
+                return;
+            }
+            await this.query(
+                'insert into phone_information(study_id, retrieval_datetime, installed_apps, top_ten_apps) values($1,$2,$3,$4)',
+                [
+                    phoneInfo.study_id,
+                    phoneInfo.retrieval_datetime,
+                    phoneInfo.installed_apps,
+                    phoneInfo.top_ten_apps
+                ]
+            );
+        }
+        catch(err) {
+            console.log(`Error inserting Phone info for studyID: ${phoneInfo.study_id}, Error: ${err}`);
             throw err;
         }
     }
