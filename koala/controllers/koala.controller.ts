@@ -35,7 +35,7 @@ router.post('/interaction', (req : Request, res: Response ) => {
 
         try{
             await db.insertInteractionLog(logInteractionRequest.interaction);
-            res.status(200).send({Success:"Interaction was successfully logged."});
+            res.status(200).send({success:"Interaction was successfully logged."});
         }
         catch(err) {
             res.status(400).send({Error:err});
