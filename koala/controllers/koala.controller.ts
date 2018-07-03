@@ -1,5 +1,5 @@
 import { Router, Request, Response, json } from 'express';
-import { AuthDetails, LogInteractionRequest, LogPhoneInformationRequest } from '../../util/types';
+import { AuthDetails, LogInteractionRequest, LogPhoneInformationRequest, LogAudioRequest } from '../../util/types';
 import * as jwt from 'jsonwebtoken';
 
 const config = require('../../config/config');
@@ -21,6 +21,28 @@ router.get('/', (req : Request, res: Response ) : void => {
 
         // Do whaetever the endpoint do.
         res.send({"authenticated":true});
+    });
+});
+
+router.post('/audio', (req : Request, res : Response) => {
+    let logAudioRequest : LogAudioRequest = req.body;
+    authenticate(logAudioRequest.auth_details, (err : jwt.JsonWebTokenError, decoded) => {
+        console.log(`Authenticated Audio Log Request Recieved.`);
+        console.log(logAudioRequest.audio_info);
+        if(err) {
+            console.log(err);
+            res.status(401).send({error:'invalid token'});
+            return;
+        }
+
+        try{
+
+            res.status(200).send({Success:"Audio was successfully logged."});
+        }
+        catch(err) {
+            res.status(400).send({Error:err});
+        }
+            // Do whaetever the endpoint do.
     });
 });
 

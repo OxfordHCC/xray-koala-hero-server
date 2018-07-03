@@ -1,3 +1,4 @@
+import { AuthController } from '../koala/controllers/auth.controller';
 export class TokenResponse {
     expires:    string = "";
     token:      string = "";
@@ -92,4 +93,18 @@ export class LogInteractionRequest {
 export class LogPhoneInformationRequest {
     auth_details : AuthDetails = new AuthDetails();
     phone_info : PhoneInformation = new PhoneInformation();
+}
+
+export class AudioInformation {
+    study_id : String = "";
+    file_id : number = -1;
+    date : Date = new Date();
+    file_size : number = -1;
+    length : number = -1;
+    file : File = File.prototype;
+}
+
+export class LogAudioRequest {
+    auth_details : AuthDetails = new AuthDetails();
+    audio_info : AudioInformation = new AudioInformation();
 }
