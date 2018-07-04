@@ -40,6 +40,7 @@ router.post('/audio',  (req : Request, res : Response) => {
             res.status(200).send({Success:"Audio was successfully logged."});
         }
         catch(err) {
+            console.log(`Error processing Audio Request: ${err}`);
             res.status(400).send({Error:err});
         }
             // Do whaetever the endpoint do.
