@@ -102,6 +102,7 @@ export class AudioInformation {
     file_size : number = -1;
     length : number = -1;
     file_data :  ArrayBuffer = new ArrayBuffer(0);
+    file_path : string = "";
 }
 
 export class LogAudioRequest {

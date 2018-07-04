@@ -94,12 +94,24 @@ export class DB {
             console.log(`File was Saved Successfully.\nFile Path: ${fp}`);
 
             delete audioInfo.file_data;
+            audioInfo.file_path = fp;
             await this.insertAudioLog(audioInfo);
         });
     }
 
     async insertAudioLog(audioInfo : AudioInformation) {
-
+        console.log(`Saving Audio Log Information`);
+        try {
+            await this.query(
+                'insert into audio_recordings(study_id, date, length, file_path) values ($1,$2,$3,$4)',
+                [
+                    audioInfo.study_id,
+                    audioInfo.date,
+                    audioInfo.length,
+                    audioInfo.file_path
+                ]
+            );
+        }
     }
 
     async insertInteractionLog(interaction : Interaction) {
