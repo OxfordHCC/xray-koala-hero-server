@@ -101,7 +101,7 @@ export class AudioInformation {
     date : Date = new Date();
     file_size : number = -1;
     length : number = -1;
-    file : File = File.prototype;
+    file_data :  ArrayBuffer = new ArrayBuffer(0);
 }
 
 export class LogAudioRequest {
