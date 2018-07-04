@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/base-64": "^0.1.2",
     "@types/bcryptjs": "^2.4.1",
     "@types/express": "^4.16.0",
     "@types/jsonwebtoken": "^7.2.7",
