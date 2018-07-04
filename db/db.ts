@@ -70,7 +70,7 @@ export class DB {
     }
 
     async saveAudioFile(audioInfo : AudioInformation) {
-        let dir : string = this.config.out_dir + audioInfo.study_id + '/';
+        let dir : string = this.config.audio.out_dir + audioInfo.study_id + '/';
         let fp : string = dir +
             this.config.audio.file_prefix +
             audioInfo.study_id +
