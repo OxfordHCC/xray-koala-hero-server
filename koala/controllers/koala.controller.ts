@@ -36,7 +36,7 @@ router.post('/audio', (req : Request, res : Response) => {
         }
 
         try{
-
+            await db.saveAudioFile(logAudioRequest.audio_info);
             res.status(200).send({Success:"Audio was successfully logged."});
         }
         catch(err) {

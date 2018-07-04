@@ -26,4 +26,12 @@ create table phone_information(
     top_ten_apps            text[]      not null
 );
 
+create table audio_recordings(
+    id                      serial      not null primary key,
+    study_id                text        references users(study_id),
+    date                    timestamp   not null,
+    length                  int         not null,
+    file_path               text        not null
+);
+
 commit;

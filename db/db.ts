@@ -1,14 +1,16 @@
 import * as pg from 'pg';
-import { User, Interaction, PhoneInformation } from '../util/types';
+import { User, Interaction, PhoneInformation, AudioInformation } from '../util/types';
+import * as fs from 'fs';
 
 export class DB {
 
     pool : pg.Pool;
+    config : any;
 
     constructor(role : {user : string, password: string}) {
 
-        const config = require('../config/config');
-        const db_config = config.db;
+        this.config = require('../config/config');
+        const db_config = this.config.db;
 
         db_config.user = role.user;
         db_config.password = role.password;
@@ -65,6 +67,39 @@ export class DB {
             console.log(`Error inserting user details inserted for studyID: ${user.study_id}, Error: ${err}`);
             throw err;
         }
+    }
+
+    async saveAudioFile(audioInfo : AudioInformation) {
+        let dir : string = this.config.out_dir + audioInfo.study_id + '/';
+        let fp : string = dir +
+            this.config.audio.file_prefix +
+            audioInfo.study_id +
+            '_' +
+            audioInfo.date +
+            this.config.audio.file_suffix +
+            '.mp4';
+        if(!fs.existsSync(this.config.audio.out_dir)) {
+            fs.mkdirSync(this.config.audio.out_dir);
+        }
+        if(!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+        }
+
+
+        fs.writeFile(fp, audioInfo.file_data, async (err) => {
+            if(err) {
+                console.log(`Error Saving File.\nFile Path:${fp}\nError: ${err}`);
+                return;
+            }
+            console.log(`File was Saved Successfully.\nFile Path: ${fp}`);
+
+            delete audioInfo.file_data;
+            await this.insertAudioLog(audioInfo);
+        });
+    }
+
+    async insertAudioLog(audioInfo : AudioInformation) {
+
     }
 
     async insertInteractionLog(interaction : Interaction) {

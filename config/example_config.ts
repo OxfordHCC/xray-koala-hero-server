@@ -16,5 +16,10 @@ module.exports = {
     'auth' : {
         'secret':'shhhh',
         'expires_in' : 86400
+    },
+    'audio' :  {
+        'file_prefix' : 'koala',
+        'file_suffix' : 'oxford-hcc',
+        'out_dir' : '/etc/koala/'
     }
 }
