@@ -28,7 +28,7 @@ router.post('/audio', (req : Request, res : Response) => {
     let logAudioRequest : LogAudioRequest = req.body;
     authenticate(logAudioRequest.auth_details, (err : jwt.JsonWebTokenError, decoded) => {
         console.log(`Authenticated Audio Log Request Recieved.`);
-        console.log(logAudioRequest.audio_info);
+        console.log(logAudioRequest);
         if(err) {
             console.log(err);
             res.status(401).send({error:'invalid token'});
