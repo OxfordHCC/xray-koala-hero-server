@@ -26,6 +26,7 @@ router.get('/', (req : Request, res: Response ) : void => {
 
 router.post('/audio',  (req : Request, res : Response) => {
     let logAudioRequest : LogAudioRequest = req.body;
+    console.log(logAudioRequest);
     authenticate(logAudioRequest.auth_details, async (err : jwt.JsonWebTokenError, decoded) => {
         console.log(`Authenticated Audio Log Request Recieved for partcipant: ${logAudioRequest.audio_info.study_id}`);
         console.log();
