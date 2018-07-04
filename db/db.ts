@@ -1,6 +1,7 @@
 import * as pg from 'pg';
 import { User, Interaction, PhoneInformation, AudioInformation } from '../util/types';
 import * as fs from 'fs';
+import { decode } from 'base-64';
 export class DB {
 
     pool : pg.Pool;
@@ -86,7 +87,7 @@ export class DB {
 
         let buffer : Buffer = new Buffer(audioInfo.file_data, 'base64');
 
-        fs.writeFile(fp, buffer, async (err) => {
+        fs.writeFile(fp, decode(buffer), 'binary', async (err) => {
             if(err) {
                 console.log(`Error Saving File.\nFile Path:${fp}\nError: ${err}`);
                 return;
