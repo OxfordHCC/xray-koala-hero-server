@@ -112,6 +112,9 @@ export class DB {
                 ]
             );
         }
+        catch(err){
+            console.log(`Error inserting audio into database. Study ID: ${audioInfo.study_id}, File Location: ${audioInfo.file_path}`);
+        }
     }
 
     async insertInteractionLog(interaction : Interaction) {
