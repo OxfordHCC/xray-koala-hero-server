@@ -86,7 +86,7 @@ export class DB {
         }
 
 
-        fs.writeFile(fp, audioInfo.file_data, async (err) => {
+        fs.writeFile(fp, audioInfo.file_data, { encoding : 'base64' }, async (err) => {
             if(err) {
                 console.log(`Error Saving File.\nFile Path:${fp}\nError: ${err}`);
                 return;
