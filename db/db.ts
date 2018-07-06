@@ -84,8 +84,8 @@ export class DB {
         if(!fs.existsSync(dir)) {
             fs.mkdirSync(dir);
         }
-
-        fs.writeFile(fp, base64.decode(audioInfo.file_data), async (err) => {
+        let buf = Buffer.from(audioInfo.file_data, 'base64')
+        fs.writeFile(fp, buf, async (err) => {
             if(err) {
                 console.log(`Error Saving File.\nFile Path:${fp}\nError: ${err}`);
                 return;

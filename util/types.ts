@@ -101,7 +101,7 @@ export class AudioInformation {
     date : Date = new Date();
     file_size : number = -1;
     length : number = -1;
-    file_data : string = "";
+    file_data : ByteString = "";
     file_path : string = "";
 }
 
