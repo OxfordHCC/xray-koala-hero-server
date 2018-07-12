@@ -32,6 +32,7 @@ create table audio_recordings(
     date                    timestamp   not null,
     length                  int         not null,
     file_path               text        not null
+
 );
 
 commit;
