@@ -181,8 +181,8 @@ Once you have the above set up on your server you are ready to start!
 2. initialise a PostgreSQL Database using `init_db.sql` found in `path_to_repo/db/init_db.sql` (Prerequsitie: a Postgres server and client running on your system)
 3. make a copy of `example_config.json` and rename it to `config.json`
 4. update the details of `config.json` so it accurately reflects your DB setup.
-5. run `npm install' to install all node packages required for the project
-6. run `tsc' in the root directory of the project, which will build JavaScript code in the `build/' directory
-7. use `node js` in the `path_to_repo` to run the `build/koala/server.js` file using the command of `node build/koala/server.js'
+5. run `npm install` to install all node packages required for the project
+6. run `tsc --build tsconfig.json` in the root directory of the project, which will build JavaScript code in the `build/` directory
+7. use `node js` in the `path_to_repo` to run the `build/koala/server.js` file using the command of `node build/koala/server.js`
 8. from a web browser, navigate to `localhost:8084` or `localhost:<<whatever port>>` if you changed the port number in `config.json`
 
