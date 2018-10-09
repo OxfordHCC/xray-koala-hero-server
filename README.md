@@ -160,3 +160,26 @@ Example Resonse Data
 }
 ```
 
+
+## How to setup.
+
+You will need node.js, and a TypeScript (tsc) compiler installed in order to build the project.
+
+If you haven’t yet, go [install Node.js](https://nodejs.org/en/download/) which will also install the command-line package manager, npm.
+
+To install TypeScript, typically you can run
+```npm install --global typescript'''
+
+This will give you `tsc' on your command line.
+
+Once you have the above set up on your server you are ready to start!
+
+1. From a Linux environment, clone the repository.
+2. initialise a PostgreSQL Database using `init_db.sql` found in `path_to_repo/db/init_db.sql` (Prerequsitie: a Postgres server and client running on your system)
+3. make a copy of `example_config.json` and rename it to `config.json`
+4. update the details of `config.json` so it accurately reflects your DB setup.
+5. run `npm install' to install all node packages required for the project
+6. run `tsc' in the root directory of the project, which will build JavaScript code in the `build/' directory
+7. use `node js` in the `path_to_repo` to run the `build/koala/server.js` file using the command of `node build/koala/server.js'
+8. from a web browser, navigate to `localhost:8084` or `localhost:<<whatever port>>` if you changed the port number in `config.json`
+
