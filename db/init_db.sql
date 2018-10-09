@@ -5,7 +5,8 @@ create table users(
     study_id                text        not null primary key,
     password_hash           text        not null,
     last_auth               date,
-    date_created            date
+    date_created            date,
+    email                   text
 );
 
 create table interactions(

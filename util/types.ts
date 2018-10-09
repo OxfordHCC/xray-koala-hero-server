@@ -12,6 +12,8 @@ export class AuthDetails {
 export class RegistrationDetails {
     email:      string = "";
     password:   string = "";
+    study_id :  string = "";
+
 }
 
 export class RegistrationError {
@@ -65,6 +67,7 @@ export class User {
     password_hash : string = "";
     last_auth : Date = new Date();
     date_created : Date = new Date();
+    study_id : string = "";
 }
 
 export class PhoneInformation {

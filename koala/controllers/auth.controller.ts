@@ -48,6 +48,8 @@ router.post('/registration', async (req : Request, res: Response ) => {
     let salt = await bcrypt.genSalt(10);
     user.password_hash = await bcrypt.hash(registrationDetails.password, salt);
 
+    user.study_id = registrationDetails.study_id;
+
 
     // Insert Details to DB.
     try{

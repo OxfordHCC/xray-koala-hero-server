@@ -70,8 +70,8 @@ export class DB {
                 return;
             }
             await this.query(
-                'insert into users(email, password_hash, last_auth, date_created) values ($1, $2, now(), now())',
-                [user.email, user.password_hash]
+                'insert into users(email, password_hash, study_id,last_auth, date_created) values ($1, $2, $3, now(), now())',
+                [user.email, user.password_hash, user.study_id]
             );
         }
         catch(err) {
