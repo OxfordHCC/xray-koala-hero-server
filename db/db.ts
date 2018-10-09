@@ -51,6 +51,17 @@ export class DB {
         }
     }
 
+    async selectByStudyID(study_id : string) {
+        try{
+            let ret: pg.QueryResult =
+                await this.query('select * from users where study_id = $1', [study_id]);
+            return ret.rows[0];
+
+        } catch(err) {
+            console.log(`Error selecting users for study: ${study_id}, Error: ${err}`);
+        }
+    }
+
     async insertUser(user : User) {
         try {
             let selectedUser : User = await this.selectByEmail(user.email);
