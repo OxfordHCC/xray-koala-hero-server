@@ -169,9 +169,11 @@ You will need node.js, and a TypeScript (tsc) compiler installed in order to bui
 If you haven’t yet, go [install Node.js](https://nodejs.org/en/download/) which will also install the command-line package manager, npm.
 
 To install TypeScript, typically you can run
-```npm install --global typescript'''
+```
+npm install --global typescript
+```
 
-This will give you `tsc' on your command line.
+This will give you `tsc` on your command line.
 
 Once you have the above set up on your server you are ready to start!
 
