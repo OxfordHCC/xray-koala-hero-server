@@ -35,8 +35,9 @@ router.post('/registration', async (req : Request, res: Response ) => {
     }
 
     // Check Email Doesn't Exist
-    if(await db.selectByEmail(registrationDetails.email)) {
-        console.log(`User already exists with email: ${registrationDetails.email}`);
+
+    if(await db.selectByStudyID(registrationDetails.study_id)) {
+        console.log(`User already exists with study_id: ${registrationDetails.study_id}`);
         res.send(new RegistrationError());
         return;
     }
