@@ -64,7 +64,7 @@ router.post('/registration', async (req : Request, res: Response ) => {
     // Generate Token
     let tokenResponse : TokenResponse = createToken(registrationDetails.email);
 
-    // Send Token & Date of Expiry
+    // Send Token Date of Expiry
     res.send(tokenResponse);
 });
 
@@ -74,21 +74,21 @@ router.post('/registration', async (req : Request, res: Response ) => {
 router.post('/', async (req : Request, res: Response ) => {
     let registrationDetails : RegistrationDetails = req.body;
 
-    // Check Email Doesn't Exist
-    let user : User = await db.selectByEmail(registrationDetails.email);
+
+    let user : User = await db.selectByStudyID(registrationDetails.study_id);
     if(!user) {
-        console.log(`User does not exist with email: ${registrationDetails.email}`);
+        console.log(`User does not exist with study id: ${registrationDetails.study_id}`);
         res.send(new AuthError());
         return;
     }
 
     if(!await bcrypt.compare(registrationDetails.password, user.password_hash)) {
-        console.log(`Invalid password for user with email: ${registrationDetails.email}`);
+        console.log(`Invalid password for user with study: ${registrationDetails.study_id}`);
         res.send(AuthError);
         return;
     }
         // Generate Token
-    let tokenResponse : TokenResponse = createToken(registrationDetails.email);
+    let tokenResponse : TokenResponse = createToken(user.email);
 
     res.send(tokenResponse);
 });
